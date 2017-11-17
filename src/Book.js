@@ -9,22 +9,9 @@ class Book extends Component {
     updateBook: PropTypes.func.isRequired
   }
 
-  state = {
-    book: {}
-  }
-
-  componentDidMount() {
-    BooksAPI.get(this.props.id).then(
-      (book) => {
-        this.setState({book})
-      }
-    )
-  }
-
   render() {
     // const { book } = this.props
-    const { book } = this.state
-    const { onUpdateBook } = this.props
+    const { book, onUpdateBook } = this.props
     // const { id, shelf, title, author, imageLinks } = book
     console.log(book)
 

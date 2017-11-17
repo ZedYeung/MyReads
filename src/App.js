@@ -26,15 +26,12 @@ class App extends Component {
   updateBook = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
         book.shelf = shelf
-        this.setState({
-          book: book,
-        })
+        this.setState((state) => ({
+          books: state.books.filter((b) => (
+            b.id !== book.id
+          )).concat([ book ])
+        }))
     })
-
-    BooksAPI.getAll().then(
-      (books) => {
-        this.setState({books})
-      })
   }
 
   render() {

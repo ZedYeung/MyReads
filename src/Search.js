@@ -65,6 +65,7 @@ class Search extends Component {
                 <li key={book.id}>
                   <Book
                     id={book.id}
+                    book={book}
                     onUpdateBook={onUpdateBook}
                   />
                 </li>
