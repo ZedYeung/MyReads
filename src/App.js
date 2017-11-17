@@ -17,17 +17,39 @@ class App extends Component {
       })
   }
 
+  // really ugly, is there some way to write more beutiful code?
+  // In order to update all books collection when update a book
+  // this code use BooksAPI twice
+  // what is worse, it call this.setState separately, while in this App Component,
+  // there is only one state-- books. the state book is in Book component.
+  // But both of them use this.setState. So, what is that this?
+  updateBook = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf
+        this.setState({
+          book: book,
+        })
+    })
+
+    BooksAPI.getAll().then(
+      (books) => {
+        this.setState({books})
+      })
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
           <Bookshelf
             books={this.state.books}
+            onUpdateBook={this.updateBook}
           />
         )}/>
 
         <Route path="/add" render={() => (
           <Search
+            onUpdateBook={this.updateBook}
           />
          )}/>
       </div>

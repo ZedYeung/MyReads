@@ -20,6 +20,11 @@ class Search extends Component {
     })
   }
 
+  // If I move this searchBooks function in render, there would be something
+  // wrong since render should keep pure without data read and write.
+  // But is there any different with writing a function outside the render
+  // but calling it inside the render? (line 57)
+  // it seems that both ways actually use the function inside the render
   searchBooks = (query) => {
     query = query.trim()
     if (query) {

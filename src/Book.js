@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 class Book extends Component {
   static PropTypes = {
     book: PropTypes.object.isRequired,
-    updateBook: PropTypes.func.isRequired
+    onUpdateBook: PropTypes.func.isRequired
   }
 
   state = {
@@ -21,18 +21,10 @@ class Book extends Component {
     )
   }
 
-  updateBook = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(() => {
-        book.shelf = shelf
-        this.setState({
-          book: book,
-        })
-    })
-  }
-
   render() {
     // const { book } = this.props
     const { book } = this.state
+    const { onUpdateBook } = this.props
     // const { id, shelf, title, author, imageLinks } = book
     console.log(book)
 
@@ -47,7 +39,7 @@ class Book extends Component {
           </div>
           <div className="book-shelf-changer">
             <select value={book.shelf || "none"} onChange={(event) => {
-              this.updateBook(book, event.target.value)
+              onUpdateBook(book, event.target.value)
             }}>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>

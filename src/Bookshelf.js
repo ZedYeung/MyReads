@@ -3,10 +3,21 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
+
+// In Bookshlef component, there are 3 different bookshelfs having a lot same
+// code, what is the best way to make it consice?
+
+// I am quite confused with the key attribute, is the same with id attribute But
+// used by react and would not be rendered in html, right?
 class Bookshelf extends Component {
 
+  static PropTypes = {
+    books: PropTypes.array.isRequired,
+    onUpdateBook: PropTypes.func.isRequired
+  }
+
   render() {
-    const { books } = this.props
+    const { books, onUpdateBook } = this.props
 
     return (
       <div className="list-books">
@@ -22,8 +33,11 @@ class Bookshelf extends Component {
                   {books.length > 0 && books.filter((book) => (
                     book.shelf === "currentlyReading"
                   )).map((book) => (
-                    <li>
-                      <Book key={book.id} id={book.id} />
+                    <li key={book.id}>
+                      <Book
+                        id={book.id}
+                        onUpdateBook={onUpdateBook}
+                      />
                     </li>
                   ))}
                 </ol>
@@ -36,8 +50,11 @@ class Bookshelf extends Component {
                   {books.length > 0 && books.filter((book) => (
                     book.shelf === "wantToRead"
                   )).map((book) => (
-                    <li>
-                      <Book key={book.id} id={book.id} />
+                    <li key={book.id}>
+                      <Book
+                        id={book.id}
+                        onUpdateBook={onUpdateBook}
+                      />
                     </li>
                   ))}
                 </ol>
@@ -50,8 +67,11 @@ class Bookshelf extends Component {
                   {books.length > 0 && books.filter((book) => (
                     book.shelf === "read"
                   )).map((book) => (
-                    <li>
-                      <Book key={book.id} id={book.id} />
+                    <li key={book.id}>
+                      <Book
+                        id={book.id}
+                        onUpdateBook={onUpdateBook}
+                      />
                     </li>
                   ))}
                 </ol>
