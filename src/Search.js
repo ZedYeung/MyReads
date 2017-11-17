@@ -43,6 +43,7 @@ class Search extends Component {
 
   render() {
     const { query, queryResults } = this.state
+    const { onUpdateBook } = this.props
 
     return (
       <div className="search-books">
@@ -61,8 +62,11 @@ class Search extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
               {queryResults.length > 0 && queryResults.map((book) => (
-                <li>
-                  <Book key={book.id} id={book.id} />
+                <li key={book.id}>
+                  <Book
+                    id={book.id}
+                    onUpdateBook={onUpdateBook}
+                  />
                 </li>
               ))}
           </ol>
