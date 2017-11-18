@@ -25,14 +25,20 @@ class Search extends Component {
   // But is there any different with writing a function outside the render
   // but calling it inside the render? (line 57)
   // it seems that both ways actually use the function inside the render
+
   searchBooks = (query) => {
     query = query.trim()
     if (query) {
-      BooksAPI.search(query, 10).then(
-        (books) => {
+      BooksAPI.search(query, 5).then(
+        (results) => {
           this.setState({
             query: query,
-            queryResults: books
+            queryResults: results && results.map((result) => {
+              let index = this.props.books.map((book) => (
+                book.id
+              )).indexOf(result.id)
+              return index >= 0 ? this.props.books[index] : result
+            })
           })
         }
       )
@@ -62,14 +68,14 @@ class Search extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
               {queryResults.length > 0 && queryResults.map((book) => (
-                <li key={book.id}>
-                  <Book
-                    id={book.id}
-                    book={book}
-                    onUpdateBook={onUpdateBook}
-                  />
-                </li>
-              ))}
+                  <li key={book.id}>
+                    <Book
+                      id={book.id}
+                      book={book}
+                      onUpdateBook={onUpdateBook}
+                    />
+                  </li>
+                ))}
           </ol>
         </div>
       </div>

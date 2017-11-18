@@ -13,7 +13,6 @@ class Book extends Component {
     // const { book } = this.props
     const { book, onUpdateBook } = this.props
     // const { id, shelf, title, author, imageLinks } = book
-    console.log(book)
 
     return (
       <div className="book" id={book.id} key={book.id}>
