@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 class Book extends Component {
@@ -9,21 +8,24 @@ class Book extends Component {
   }
 
   render() {
-    // const { book } = this.props
     const { book, onUpdateBook } = this.props
-    // const { id, shelf, title, author, imageLinks } = book
+    const { id, shelf, title, authors, imageLinks, previewLink } = book
+
+    console.log(book)
 
     return (
-      <div className="book" id={book.id} key={book.id}>
+      <div className="book" id={id} key={id}>
         <div className="book-top">
-          <div
-            className="book-cover"
-            style={{
-              width: 128, height: 193,
-              backgroundImage: book.imageLinks ? `url(${book.imageLinks.thumbnail})`: null }}>
-          </div>
+          <a href={previewLink}>
+            <div
+              className="book-cover"
+              style={{
+                width: 128, height: 193,
+                backgroundImage: imageLinks ? `url(${imageLinks.thumbnail})`: null }}>
+            </div>
+          </a>
           <div className="book-shelf-changer">
-            <select value={book.shelf || "none"} onChange={(event) => {
+            <select value={shelf || "none"} onChange={(event) => {
               onUpdateBook(book, event.target.value)
             }}>
               <option value="none" disabled>Move to...</option>
@@ -34,8 +36,10 @@ class Book extends Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors}</div>
+          <div className="book-title">
+            <a href={previewLink}>{title}</a>
+          </div>
+        <div className="book-authors">{authors}</div>
       </div>
     )
   }
