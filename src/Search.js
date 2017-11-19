@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { debounce } from 'throttle-debounce';
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 
@@ -10,7 +11,7 @@ class Search extends Component {
   }
 
   state = {
-    query: '',
+    query: "",
     queryResults: []
   }
 
@@ -20,35 +21,32 @@ class Search extends Component {
     })
   }
 
-  // If I move this searchBooks function in render, there would be something
-  // wrong since render should keep pure without data read and write.
-  // But is there any different with writing a function outside the render
-  // but calling it inside the render? (line 57)
-  // it seems that both ways actually use the function inside the render
-
-  searchBooks = (query) => {
-    query = query.trim()
+  searchBooks = debounce(400, (query) => {
     if (query) {
       BooksAPI.search(query, 5).then(
         (results) => {
           this.setState({
             query: query,
-            queryResults: results && results.map((result) => {
-              let index = this.props.books.map((book) => (
-                book.id
-              )).indexOf(result.id)
-              return index >= 0 ? this.props.books[index] : result
+            queryResults: ("error" in results) ? [] :
+              results.map((result) => {
+                let index = this.props.books.map((book) => (
+                  book.id
+                )).indexOf(result.id)
+
+                return index >= 0 ? this.props.books[index] : result
             })
           })
         }
       )
     } else {
-      this.setState({ queryResults: [] })
+      this.setState({
+        query: "",
+        queryResults: [] })
     }
-  }
+  })
 
   render() {
-    const { query, queryResults } = this.state
+    const { queryResults } = this.state
     const { onUpdateBook } = this.props
 
     return (
@@ -60,7 +58,8 @@ class Search extends Component {
               className='search-books'
               type="text"
               placeholder="Search by title or author"
-              value={query}
+              // Set value will make the query inconsistent
+              // value={query}
               onChange={(event) => this.searchBooks(event.target.value)}
             />
           </div>
