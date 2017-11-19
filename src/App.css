@@ -43,6 +43,12 @@ body, .app {
   text-align: center;
 }
 
+.category-changer {
+  position: fixed;
+  right: 25px;
+  top: 25px;
+}
+
 .open-search {
   position: fixed;
   right: 25px;
