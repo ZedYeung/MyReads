@@ -26,10 +26,12 @@ class Bookshelf extends Component {
     let categories = new Set()
 
     for (let b of books) {
-      for (let c of b.categories) {
-        categories.add(c)
+      if (b.categories) {
+          for (let c of b.categories) {
+            categories.add(c)
+          }
+        }
       }
-    }
 
     categories = [...categories]
 
